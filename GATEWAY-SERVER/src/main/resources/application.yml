@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: GATEWAY-SERVER
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      routes:
+        - id: CARDS-SERVICE
+          uri: lb://CARDS-SERVICE
+          predicates:
+            - Path=/api/v1/cards/**
+          filters:
+            - TokenRelay=
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/oauth/**
+          filters:
+            - TokenRelay=
+            - RewritePath=/oauth/(?<segment>.*), /$\{segment}
+  security:
+    oauth2:
+      client:
+        provider:
+          mobile:
+            issuer-uri: http://localhost:8080
+        registration:
+          mobile:
+            client-id: mobile
+            client-secret: password
+            scope:
+              - openid
+              - profile
+              - email
+            authorization-grant-type: authorization_code
+            client-authentication-method: none
+            redirect-uri: http://127.0.0.1:3000/api/auth/callback
+
+server:
+  port: 8072
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+
+logging:
+  level:
+    com:
+      example:
+        gatewayserver: DEBUG

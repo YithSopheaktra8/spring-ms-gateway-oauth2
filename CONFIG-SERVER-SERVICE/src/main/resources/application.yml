@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: CONFIG-SERVER-SERVICE
+  profiles:
+    active: git,vault
+  cloud:
+    config:
+      server:
+        git:
+          uri: "https://github.com/YithSopheaktra8/spring-microservices-configuration.git"
+          default-label: master
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+        vault:
+          scheme: http
+          host: 128.199.199.32
+          port: 8200
+          authentication: token
+          token: myroot
+          backend: secret
+          kv-version: 2
+  kafka:
+    bootstrap-servers: 128.199.199.32:9092
+
+server:
+  port: 8071
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh

@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: CARDS-SERVICE
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  profiles:
+    active: prod
+  kafka:
+    bootstrap-servers: 128.199.199.32:9092
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080
+
+server:
+  port: 8090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/

@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CARD-SERVICE.main.iml" filepath="$PROJECT_DIR$/.idea/modules/CARD-SERVICE.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/MS.iml" filepath="$PROJECT_DIR$/.idea/MS.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/USER-SERVICE.main.iml" filepath="$PROJECT_DIR$/.idea/modules/USER-SERVICE.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spring-oauth.main.iml" filepath="$PROJECT_DIR$/.idea/modules/spring-oauth.main.iml" />
     </modules>
   </component>
 </project>

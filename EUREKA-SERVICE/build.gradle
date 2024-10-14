@@ -22,6 +22,9 @@ ext {
 }
 
 dependencies {
+	implementation 'io.micrometer:micrometer-registry-prometheus:1.13.4'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

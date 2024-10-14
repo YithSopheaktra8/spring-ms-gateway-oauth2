@@ -19,7 +19,9 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 
         http
-                .securityMatcher(new OrServerWebExchangeMatcher(new PathPatternParserServerWebExchangeMatcher("/oauth2/**")))
+                .securityMatcher(new OrServerWebExchangeMatcher(new PathPatternParserServerWebExchangeMatcher("/oauth2/**"),
+                        new PathPatternParserServerWebExchangeMatcher("/login/**"),
+                        new PathPatternParserServerWebExchangeMatcher("/actuator/**")))
                 .authorizeExchange(exchanges -> exchanges
                 .pathMatchers("/actuator/**").permitAll()
                 .pathMatchers("/oauth2/**").permitAll()

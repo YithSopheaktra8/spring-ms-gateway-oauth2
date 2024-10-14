@@ -15,6 +15,11 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers(
+                                        request -> request.getServletPath().startsWith("/actuator"),
+                                        request -> request.getServletPath().startsWith("/oauth2"),
+                                        request -> request.getServletPath().startsWith("/login")
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))

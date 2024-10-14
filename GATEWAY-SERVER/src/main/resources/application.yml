@@ -2,7 +2,7 @@ spring:
   application:
     name: GATEWAY-SERVER
   config:
-    import: "optional:configserver:http://localhost:8071/"
+    import: "optional:configserver:http://config-server:8071/"
   cloud:
     gateway:
       discovery:
@@ -28,7 +28,7 @@ spring:
       client:
         provider:
           mobile:
-            issuer-uri: http://localhost:8080
+            issuer-uri: http://oauth2-service:8080
         registration:
           mobile:
             client-id: mobile

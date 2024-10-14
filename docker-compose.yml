@@ -1,0 +1,79 @@
+  services:
+    eureka-server:
+      build:
+        context: ./EUREKA-SERVICE
+        dockerfile: Dockerfile
+      ports:
+        - "8070:8070"
+      environment:
+        - SPRING_PROFILES_ACTIVE=dev
+      networks:
+        - spring-cloud-network
+
+    config-server:
+      build:
+        context: ./CONFIG-SERVER-SERVICE
+        dockerfile: Dockerfile
+      ports:
+        - "8071:8071"
+      environment:
+        - SPRING_PROFILES_ACTIVE=dev
+        - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/YithSopheaktra8/spring-microservices-configuration.git
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8070/eureka/
+      depends_on:
+        - eureka-server
+      networks:
+        - spring-cloud-network
+
+    api-gateway:
+      build:
+        context: ./GATEWAY-SERVER
+        dockerfile: Dockerfile
+      ports:
+        - "8072:8072"
+      environment:
+        - SPRING_PROFILES_ACTIVE=dev
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8070/eureka/
+      depends_on:
+        - eureka-server
+        - config-server
+        - oauth2-service
+      networks:
+        - spring-cloud-network
+
+    card-service:
+      build:
+        context: ./CARD-SERVICE
+        dockerfile: Dockerfile
+      ports:
+        - "8090:8090"
+      environment:
+        #      - SPRING_PROFILES_ACTIVE=dev
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8070/eureka/
+        - SPRING_PROFILES_ACTIVE=dev
+
+      depends_on:
+        - eureka-server
+        - config-server
+        - oauth2-service
+      networks:
+        - spring-cloud-network
+
+    oauth2-service:
+      build:
+        context: ./spring-oauth2
+        dockerfile: Dockerfile
+      ports:
+        - "8080:8080"
+      environment:
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8070/eureka/
+        - SPRING_PROFILES_ACTIVE=dev
+      depends_on:
+        - eureka-server
+        - config-server
+      networks:
+        - spring-cloud-network
+
+  networks:
+    spring-cloud-network:
+      driver: bridge

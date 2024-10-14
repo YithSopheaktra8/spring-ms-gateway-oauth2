@@ -22,6 +22,7 @@ ext {
 }
 
 dependencies {
+	implementation 'io.micrometer:micrometer-registry-prometheus:1.13.4'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bus-kafka'
 	implementation 'org.springframework.cloud:spring-cloud-config-monitor'
 	implementation 'org.springframework.cloud:spring-cloud-config-server'

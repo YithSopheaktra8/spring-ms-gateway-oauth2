@@ -18,7 +18,8 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         request -> request.getServletPath().startsWith("/actuator"),
                                         request -> request.getServletPath().startsWith("/oauth2"),
-                                        request -> request.getServletPath().startsWith("/login")
+                                        request -> request.getServletPath().startsWith("/login"),
+                                        request -> request.getServletPath().startsWith("/api/v1/cards/public")
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )

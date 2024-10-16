@@ -2,12 +2,12 @@ spring:
   application:
     name: GATEWAY-SERVER
   config:
-    import: "optional:configserver:http://config-server:8071/"
+    import: "optional:configserver:http://localhost:8071/"
   cloud:
     gateway:
       discovery:
         locator:
-          enabled: false
+          enabled: true
           lower-case-service-id: true
       routes:
         - id: CARDS-SERVICE
@@ -16,19 +16,36 @@ spring:
             - Path=/api/v1/cards/**
           filters:
             - TokenRelay=
-        - id: AUTH-SERVICE
-          uri: lb://AUTH-SERVICE
+        - id: AUTH-SERVER
+          uri: lb://AUTH-SERVER
           predicates:
-            - Path=/oauth/**
+            - Path=/oauth2/**    # Match the exact path prefix for OAuth2 endpoints
           filters:
-            - TokenRelay=
-            - RewritePath=/oauth/(?<segment>.*), /$\{segment}
+            - TokenRelay=        # Relays the token from request if available
+            - RewritePath=/oauth2/(?<segment>.*), /oauth2/$\{segment}   # Forward full path without changes if needed
+      default-filters:
+        - TokenRelay
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+#            allowedHeaders:
+#              - Authorization
+#              - Content-Type
+#              - Cache-Control
+#            allowCredentials: true
+#            maxAge: 3600
   security:
     oauth2:
       client:
         provider:
           mobile:
-            issuer-uri: http://oauth2-service:8080
+            issuer-uri: http://localhost:8080
         registration:
           mobile:
             client-id: mobile
@@ -55,7 +72,8 @@ management:
 
 eureka:
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
+    hostname: localhost
   client:
     fetch-registry: true
     register-with-eureka: true
@@ -64,6 +82,8 @@ eureka:
 
 logging:
   level:
-    com:
-      example:
-        gatewayserver: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security.oauth2.client: DEBUG
+    org.springframework.security.oauth2.server.resource: DEBUG
+    org.springframework.security: DEBUG

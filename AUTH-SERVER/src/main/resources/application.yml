@@ -24,3 +24,12 @@ logging:
   level:
     org.springframework.security: debug
 
+eureka:
+  instance:
+    prefer-ip-address: false
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/

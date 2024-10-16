@@ -8,8 +8,8 @@ spring:
     url: jdbc:postgresql://128.199.199.32:5432/microservices_db
     username: postgres
     password: Pheaktra@8899
-  kafka:
-    bootstrap-servers: 128.199.199.32:9092
+#  kafka:
+#    bootstrap-servers: 128.199.199.32:9092
   security:
     oauth2:
       resourceserver:
@@ -27,7 +27,8 @@ management:
 
 eureka:
   instance:
-    preferIpAddress: true
+    preferIpAddress: false
+    hostname: localhost
   client:
     fetchRegistry: true
     registerWithEureka: true

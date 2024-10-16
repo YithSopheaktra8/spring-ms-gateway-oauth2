@@ -26,6 +26,7 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
 
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -65,7 +66,7 @@ public class SecurityConfig {
 
         httpSecurity.formLogin(Customizer.withDefaults());
 //
-////         enable jwt security
+////    enable jwt security
         httpSecurity.oauth2ResourceServer(oauthSecurity -> oauthSecurity.jwt(Customizer.withDefaults()));
 //
 //        // disable csrf for submit form because we develop api
